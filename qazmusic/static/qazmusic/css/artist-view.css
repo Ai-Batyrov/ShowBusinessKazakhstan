@@ -1,0 +1,68 @@
+.artist-view-page {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    height: 85%;
+    margin: 2rem;
+}
+
+.left {
+    display: block;
+    width: 40%;
+    height: 100%;
+}
+
+.left > .artist-card {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.artist-card > .artist-photo {
+    width: 40%;
+    height: 100%;
+}
+
+.artist-card > .artist-info {
+    width: 55%;
+    height: 100%;
+    padding: 0;
+}
+
+.artist-info h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.right {
+    width: 55%;
+    height: 100%;
+}
+
+.right h2 {
+    padding: 0;
+    margin: 0;
+    color: #5690e9;
+}
+
+.right .track-div {
+    width: 100%;
+    height: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.track-div p {
+    padding: 0;
+    margin: 0;
+    color: #003366;
+    font-weight: 500;
+}
+
+.track-div audio {
+    width: 100%;
+}
