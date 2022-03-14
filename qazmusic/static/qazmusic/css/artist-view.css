@@ -66,3 +66,48 @@
 .track-div audio {
     width: 100%;
 }
+
+.track-div > div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.track-div > div > span {
+    width: 25%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.track-div > div > span > button {
+    width: 5rem;
+    height: 2rem;
+    border: none;
+    font-family: inherit;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.track-div > div > span > .edit {
+    background-color: #f5dd5d;
+    color: #5690e9;
+}
+
+.track-div > div > span > .delete {
+    background-color: #CC3434;
+}
+
+
+/* effects */
+.track-div > div > span > .edit:hover {
+    background-color: #d4c052;
+}
+
+.track-div > div > span > .delete:hover {
+    background-color: #ff5a5a;
+}

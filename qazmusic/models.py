@@ -25,6 +25,12 @@ class Artists(models.Model):
 class Genres(models.Model):
     title = models.CharField(max_length=50, db_index=True)
 
+    def get_absolute_url(self):
+        return reverse('genre_view', kwargs={
+            'genre_id': self.pk,
+            'title': self.title
+        })
+
     def __str__(self):
         return self.title
 

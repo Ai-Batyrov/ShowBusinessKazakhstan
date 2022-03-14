@@ -80,6 +80,88 @@ def artist_page(request, artist_id, fullname):
     return render(request, 'qazmusic/artist-view.html', context=context)
 
 
+def show_genres(request):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'artists': get_artists()
+    }
+
+    return render(request, 'qazmusic/show_genres.html', context=context)
+
+
+def genre_view(request, genre_id):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'artists': get_artists(),
+        'genre_id': genre_id
+    }
+
+    return render(request, 'qazmusic/genre_view.html', context=context)
+
+
+def show_charts(request):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'charts': get_charts()
+    }
+
+    return render(request, 'qazmusic/show_charts.html', context=context)
+
+
+def chart_view(request, chart_id):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'artists': get_artists(),
+        'charts': get_charts(),
+        'chart_id': chart_id
+    }
+
+    return render(request, 'qazmusic/chart_view.html', context=context)
+
+
+def show_lyrics(request):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'lyric': get_lyrics(),
+        'artists': get_artists(),
+        'tracks': get_tracks()
+    }
+
+    return render(request, 'qazmusic/show_lyrics.html', context=context)
+
+
+def lyric_view(request, lyric_id):
+    context = {
+        'title': 'qazmusic',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'artists': get_artists(),
+        'lyric_id': lyric_id
+    }
+
+    return render(request, 'qazmusic/lyric_view.html', context=context)
+
+
+def show_archive(request):
+    context = {
+        'title': 'Golden fund',
+        'header_menu': header_menu,
+        'tracks': get_tracks(),
+        'artists': get_artists(),
+        'genre_id': 3
+    }
+    return render(request, 'qazmusic/genre_view.html', context=context)
+
+
 def upload(request):
     succesful = False
     if request.method == 'POST':
