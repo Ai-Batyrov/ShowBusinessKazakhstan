@@ -41,6 +41,7 @@ class Genres(models.Model):
 
 class Tracks(models.Model):
     title = models.CharField(max_length=255, db_index=True)
+    artist = models.ForeignKey(Artists, on_delete=models.CASCADE, null=True)
     file = models.FileField(verbose_name='file', upload_to='tracks/')
     published_date = models.DateField(auto_now=False)
     genre = models.ForeignKey(Genres, on_delete=models.PROTECT, null=True)
@@ -74,5 +75,5 @@ class Charts(models.Model):
 
 
 class TracksArtist(models.Model):
-    artist_id = models.ForeignKey(Artists, on_delete=models.PROTECT)
-    track_id = models.ForeignKey(Tracks, on_delete=models.PROTECT)
+    artist_id = models.ForeignKey(Artists, on_delete=models.CASCADE)
+    track_id = models.ForeignKey(Tracks, on_delete=models.CASCADE)

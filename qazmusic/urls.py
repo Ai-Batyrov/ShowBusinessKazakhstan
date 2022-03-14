@@ -13,5 +13,7 @@ urlpatterns = [
     path('lyrics', show_lyrics, name='lyrics'),
     path('lyric/<int:lyric_id>', lyric_view, name='lyrics'),
     path('archive/golden-fund', show_archive, name='archive'),
-    path('upload', upload, name='upload')
+    path('upload', upload, name='upload'),
+    path('update/<str:pk>', update_track, name='update'),
+    path('delete/<str:pk>', delete_track, name='delete_track'),
 ]

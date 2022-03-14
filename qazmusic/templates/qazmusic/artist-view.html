@@ -22,23 +22,23 @@
         <div class="right">
             <h2>Playlist</h2>
             {% for song in tracks %}
-                {% for track in tracks_artists %}
-                    {% if track.track_id_id == song.pk %}
-                        <div class="track-div">
-                            <p>{{ song.title }}</p>
-                            <audio src="{{ song.file.url }}"
-                                   controls
-                                   class="track-audio">
-                            </audio>
-                            <div>
-                                <span>
-                                    <button type="submit" class="edit">Edit tag</button>
-                                    <button type="submit" class="delete">Delete</button>
-                                </span>
-                            </div>
+                {#                {% for track in tracks_artists %}#}
+                {% if artist_id == song.artist_id %}
+                    <div class="track-div">
+                        <p>{{ song.title }}</p>
+                        <audio src="{{ song.file.url }}"
+                               controls
+                               class="track-audio">
+                        </audio>
+                        <div>
+                            <span>
+                                <a class="edit" href="{% url 'update' song.pk %}">Edit tag</a>
+                                <a class="delete" href="{% url 'delete_track' song.pk %}">Delete</a>
+                            </span>
                         </div>
-                    {% endif %}
-                {% endfor %}
+                    </div>
+                {% endif %}
+                {#                {% endfor %}#}
             {% endfor %}
         </div>
     </main>

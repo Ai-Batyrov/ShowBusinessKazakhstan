@@ -1,6 +1,4 @@
-import pdb
-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 
@@ -40,6 +38,8 @@ def get_lyrics():
     get_lyrics = Lyrics.objects.all()
     return get_lyrics
 
+
+# utils
 
 def get_tracks_artists(id):
     tracks_artists = TracksArtist.objects.filter(artist_id=id)
@@ -182,3 +182,41 @@ def upload(request):
         'upload_message': succesful
     }
     return render(request, 'qazmusic/upload.html', context=context)
+
+
+def update_track(request, pk):
+    succesful = False
+    track = Tracks.objects.get(pk=pk)
+    form = Upload_Music(instance=track)
+    if request.method == 'POST':
+        form = Upload_Music(request.POST, instance=track)
+        if form.is_valid():
+            succesful = True
+            form.save()
+
+    context = {
+        'title': 'qazmusic - Upload',
+        'header_menu': header_menu,
+        'form': form,
+        'genres': get_genres(),
+        'artists': get_artists(),
+        'upload_message': succesful
+    }
+
+    return render(request, 'qazmusic/upload.html', context=context)
+
+
+def delete_track(request, pk):
+    track = Tracks.objects.get(pk=pk)
+    form = Upload_Music(instance=track)
+    if request.method == 'POST':
+        track.delete()
+        return redirect('/artists')
+
+    context = {
+        'title': 'qazmusic - Upload',
+        'header_menu': header_menu,
+        'form': form,
+        'item': track
+    }
+    return render(request, 'qazmusic/delete_track.html', context=context)
