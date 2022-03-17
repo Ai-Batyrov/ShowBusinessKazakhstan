@@ -26,9 +26,9 @@ class Genres(models.Model):
     title = models.CharField(max_length=50, db_index=True)
 
     def get_absolute_url(self):
-        return reverse('genre_view', kwargs={
+        return reverse('genre-view', kwargs={
             'genre_id': self.pk,
-            'title': self.title
+            'title': self.title.replace(' ', '-')
         })
 
     def __str__(self):
@@ -60,6 +60,14 @@ class Lyrics(models.Model):
     composer = models.CharField(max_length=255, db_index=True, null=True)
     content = models.TextField(blank=True)
 
+    def get_absolute_url(self):
+        return reverse('lyric-view', kwargs={
+            'lyric_id': self.pk,
+        })
+
+    def __str__(self):
+        return self.track_id.title
+
     class Meta:
         verbose_name = 'Lyric'
         verbose_name_plural = 'Lyrics'
@@ -68,6 +76,14 @@ class Lyrics(models.Model):
 class Charts(models.Model):
     title = models.CharField(max_length=255, db_index=True, unique=True)
     number_of_tracks = models.ManyToManyField(Tracks, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('chart_view', kwargs={
+            'chart_id': self.pk,
+        })
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = 'Chart'

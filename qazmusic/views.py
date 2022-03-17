@@ -1,58 +1,15 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from .utils import *
 
-header_menu = {
-    'Artists': 'artists',
-    'Genres': 'genres',
-    'Charts': 'charts',
-    'Lyrics': 'lyrics',
-    'Golden fund': 'archive',
-    'Upload music': 'upload'
-}
-
-
-# useful objects
-
-def get_tracks():
-    get_tracks = Tracks.objects.all()
-    return get_tracks
-
-
-def get_artists():
-    get_artists = Artists.objects.all()
-    return get_artists
-
-
-def get_genres():
-    get_genres = Genres.objects.all()
-    return get_genres
-
-
-def get_charts():
-    get_charts = Charts.objects.all()
-    return get_charts
-
-
-def get_lyrics():
-    get_lyrics = Lyrics.objects.all()
-    return get_lyrics
-
-
-# utils
-
-def get_tracks_artists(id):
-    tracks_artists = TracksArtist.objects.filter(artist_id=id)
-    return tracks_artists
-
-
-# view functions
 
 def index(request):
     context = {
         'title': 'qazmusic',
         'header_menu': header_menu,
-        'tracks': get_tracks()
+        'tracks': get_tracks(),
+        'username': 'Aibolat Batyrov'
     }
     return render(request, 'qazmusic/index.html', context=context)
 
@@ -69,7 +26,7 @@ def artists_view(request):
 
 def artist_page(request, artist_id, fullname):
     context = {
-        'title': 'qazmusic',
+        'title': fullname,
         'header_menu': header_menu,
         'tracks': get_tracks(),
         'artists': get_artists(),
@@ -85,18 +42,20 @@ def show_genres(request):
         'title': 'qazmusic',
         'header_menu': header_menu,
         'tracks': get_tracks(),
-        'artists': get_artists()
+        'artists': get_artists(),
+        'genres': get_genres()
     }
 
     return render(request, 'qazmusic/show_genres.html', context=context)
 
 
-def genre_view(request, genre_id):
+def genre_view(request, genre_id, title):
     context = {
-        'title': 'qazmusic',
+        'title': title,
         'header_menu': header_menu,
         'tracks': get_tracks(),
         'artists': get_artists(),
+        'genres': get_genres(),
         'genre_id': genre_id
     }
 
@@ -121,7 +80,8 @@ def chart_view(request, chart_id):
         'tracks': get_tracks(),
         'artists': get_artists(),
         'charts': get_charts(),
-        'chart_id': chart_id
+        'chart_id': chart_id,
+        'tracks_in_chart': get_charts_tracks(chart_id)
     }
 
     return render(request, 'qazmusic/chart_view.html', context=context)
@@ -133,19 +93,26 @@ def show_lyrics(request):
         'header_menu': header_menu,
         'lyric': get_lyrics(),
         'artists': get_artists(),
-        'tracks': get_tracks()
+        'tracks': get_tracks(),
+        'lyrics': get_lyrics()
     }
 
     return render(request, 'qazmusic/show_lyrics.html', context=context)
 
 
 def lyric_view(request, lyric_id):
+    lyric = get_lyrics().get(pk=lyric_id)
+    track = get_tracks().get(pk=lyric.track_id_id)
+    artist = get_artists().get(pk=track.artist_id)
     context = {
         'title': 'qazmusic',
         'header_menu': header_menu,
         'tracks': get_tracks(),
         'artists': get_artists(),
-        'lyric_id': lyric_id
+        'lyric': lyric,
+        'lyric_id': lyric_id,
+        'track_title': track.title,
+        'artist_photo': artist.photo
     }
 
     return render(request, 'qazmusic/lyric_view.html', context=context)
@@ -157,6 +124,7 @@ def show_archive(request):
         'header_menu': header_menu,
         'tracks': get_tracks(),
         'artists': get_artists(),
+        'genres': get_genres(),
         'genre_id': 3
     }
     return render(request, 'qazmusic/genre_view.html', context=context)

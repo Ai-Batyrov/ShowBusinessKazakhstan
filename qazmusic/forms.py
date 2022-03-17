@@ -12,5 +12,5 @@ class Upload_Music(forms.ModelForm):
         model = Tracks
         fields = ('title', 'artist', 'genre', 'published_date', 'file')
         widgets = {
-            'published_date': forms.TextInput(attrs={'placeholder': '2022-03-08'}),
+            'published_date': forms.TextInput(attrs={'placeholder': '2022-03-09'}),
         }

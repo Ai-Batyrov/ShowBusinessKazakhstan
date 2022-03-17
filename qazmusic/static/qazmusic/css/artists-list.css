@@ -9,10 +9,11 @@
     width: 95%;
     height: auto;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .card-div {
-    width: 15%;
+    width: 17%;
     height: 23rem;
     display: flex;
     flex-direction: column;

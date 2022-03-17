@@ -1,5 +1,16 @@
 {% extends 'qazmusic/base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'qazmusic/css/index.css' %}">
+    <div class="background">
+        <main class="home-page">
+            <h1>Welcome, {{ username }}</h1>
+            <h3>Portalımızla Kazak şarkılarını dinleyin!</h3>
+        </main>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+    </div>
 {% endblock %}
