@@ -1,121 +1,121 @@
 from django.shortcuts import render, redirect
-from .models import *
+from django.views.generic import *
 from .forms import *
 from .utils import *
 
 
-def index(request):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'username': 'Aibolat Batyrov'
-    }
-    return render(request, 'qazmusic/index.html', context=context)
+class QazmusicHome(DataMixin, ListView):
+    model = Tracks
+    template_name = 'qazmusic/index.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
-def artists_view(request):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists_list': get_artists()
-    }
-    return render(request, 'qazmusic/artists.html', context=context)
+class ShowArtists(DataMixin, ListView):
+    model = Artists
+    template_name = 'qazmusic/artists.html'
+    context_object_name = 'artists_list'
+    allow_empty = False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Artists')
+
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-def artist_page(request, artist_id, fullname):
-    context = {
-        'title': fullname,
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists': get_artists(),
-        'artist_id': artist_id,
-        'tracks_artists': get_tracks_artists(artist_id)
-    }
+class ArtistView(DataMixin, DetailView):
+    model = Artists
+    template_name = 'qazmusic/artist-view.html'
+    pk_url_kwarg = 'artist_id'
+    slug_url_kwarg = 'fullname'
+    context_object_name = 'artist'
 
-    return render(request, 'qazmusic/artist-view.html', context=context)
-
-
-def show_genres(request):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists': get_artists(),
-        'genres': get_genres()
-    }
-
-    return render(request, 'qazmusic/show_genres.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=str('qazmusic - ' + str(context['artist'])))
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-def genre_view(request, genre_id, title):
-    context = {
-        'title': title,
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists': get_artists(),
-        'genres': get_genres(),
-        'genre_id': genre_id
-    }
+class ShowGenres(DataMixin, ListView):
+    model = Genres
+    template_name = 'qazmusic/show_genres.html'
+    context_object_name = 'genres'
+    allow_empty = False
 
-    return render(request, 'qazmusic/genre_view.html', context=context)
-
-
-def show_charts(request):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'charts': get_charts()
-    }
-
-    return render(request, 'qazmusic/show_charts.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Genres')
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-def chart_view(request, chart_id):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists': get_artists(),
-        'charts': get_charts(),
-        'chart_id': chart_id,
-        'tracks_in_chart': get_charts_tracks(chart_id)
-    }
+class GenreView(DataMixin, DetailView):
+    model = Genres
+    template_name = 'qazmusic/genre_view.html'
+    pk_url_kwarg = 'genre_id'
+    slug_url_kwarg = 'title'
+    context_object_name = 'genre'
 
-    return render(request, 'qazmusic/chart_view.html', context=context)
-
-
-def show_lyrics(request):
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'lyric': get_lyrics(),
-        'artists': get_artists(),
-        'tracks': get_tracks(),
-        'lyrics': get_lyrics()
-    }
-
-    return render(request, 'qazmusic/show_lyrics.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=str('qazmusic - ' + str(context['genre'])))
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-def lyric_view(request, lyric_id):
-    lyric = get_lyrics().get(pk=lyric_id)
-    track = get_tracks().get(pk=lyric.track_id_id)
-    artist = get_artists().get(pk=track.artist_id)
-    context = {
-        'title': 'qazmusic',
-        'header_menu': header_menu,
-        'tracks': get_tracks(),
-        'artists': get_artists(),
-        'lyric': lyric,
-        'lyric_id': lyric_id,
-        'track_title': track.title,
-        'artist_photo': artist.photo
-    }
+class ShowCharts(DataMixin, ListView):
+    model = Charts
+    template_name = 'qazmusic/show_charts.html'
+    context_object_name = 'charts'
+    allow_empty = False
 
-    return render(request, 'qazmusic/lyric_view.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Charts')
+        return dict(list(context.items()) + list(c_def.items()))
+
+
+class ChartView(DataMixin, DetailView):
+    model = Charts
+    template_name = 'qazmusic/chart_view.html'
+    pk_url_kwarg = 'chart_id'
+    context_object_name = 'chart'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=str('qazmusic - ' + str(context['chart'])))
+        context['tracks_in_chart'] = get_charts_tracks(self.kwargs.get('chart_id'))
+        return dict(list(context.items()) + list(c_def.items()))
+
+
+class ShowLyrics(DataMixin, ListView):
+    model = Lyrics
+    template_name = 'qazmusic/show_lyrics.html'
+    context_object_name = 'lyrics'
+    allow_empty = False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Lyrics')
+        return dict(list(context.items()) + list(c_def.items()))
+
+
+class LyricView(DataMixin, DetailView):
+    model = Lyrics
+    template_name = 'qazmusic/lyric_view.html'
+    pk_url_kwarg = 'lyric_id'
+    slug_url_kwarg = 'track_title'
+    context_object_name = 'lyric'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=str('qazmusic' + str(context['lyric'])))
+        context['track_title'] = get_tracks().get(pk=context['lyric'].track_id_id)
+        context['artist'] = get_artists().get(pk=context['track_title'].artist_id)
+        return dict(list(context.items()) + list(c_def.items()))
 
 
 def show_archive(request):
@@ -188,3 +188,118 @@ def delete_track(request, pk):
         'item': track
     }
     return render(request, 'qazmusic/delete_track.html', context=context)
+
+# def index(request):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'username': 'Aibolat Batyrov'
+#     }
+#     return render(request, 'qazmusic/index.html', context=context)
+
+
+# def artists_view(request):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists_list': get_artists()
+#     }
+#     return render(request, 'qazmusic/artists.html', context=context)
+
+
+# def artist_page(request, artist_id, fullname):
+#     context = {
+#         'title': fullname,
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists': get_artists(),
+#         'artist_id': artist_id,
+#         'tracks_artists': get_tracks_artists(artist_id)
+#     }
+#
+#     return render(request, 'qazmusic/artist-view.html', context=context)
+
+
+# def show_genres(request):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists': get_artists(),
+#         'genres': get_genres()
+#     }
+#
+#     return render(request, 'qazmusic/show_genres.html', context=context)
+
+
+# def genre_view(request, genre_id, title):
+#     context = {
+#         'title': title,
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists': get_artists(),
+#         'genres': get_genres(),
+#         'genre_id': genre_id
+#     }
+#
+#     return render(request, 'qazmusic/genre_view.html', context=context)
+
+
+# def show_charts(request):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'charts': get_charts()
+#     }
+#
+#     return render(request, 'qazmusic/show_charts.html', context=context)
+
+
+# def chart_view(request, chart_id):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists': get_artists(),
+#         'charts': get_charts(),
+#         'chart_id': chart_id,
+#         'tracks_in_chart': get_charts_tracks(chart_id)
+#     }
+#
+#     return render(request, 'qazmusic/chart_view.html', context=context)
+
+
+# def show_lyrics(request):
+#     context = {
+#         'title': 'qazmusic',
+#         'header_menu': header_menu,
+#         'lyric': get_lyrics(),
+#         'artists': get_artists(),
+#         'tracks': get_tracks(),
+#         'lyrics': get_lyrics()
+#     }
+#
+#     return render(request, 'qazmusic/show_lyrics.html', context=context)
+
+
+# def lyric_view(request, lyric_id, track_title):
+#     lyric = get_lyrics().get(pk=lyric_id)
+#     track = get_tracks().get(pk=lyric.track_id_id)
+#     artist = get_artists().get(pk=track.artist_id)
+#
+#     context = {
+#         'title': track_title,
+#         'header_menu': header_menu,
+#         'tracks': get_tracks(),
+#         'artists': get_artists(),
+#         'lyric': lyric,
+#         'lyric_id': lyric_id,
+#         'track_title': track.title,
+#         'artist_photo': artist.photo,
+#         'artist_fullname': artist.name + ' ' + artist.surname
+#     }
+#
+#     return render(request, 'qazmusic/lyric_view.html', context=context)

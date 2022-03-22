@@ -5,25 +5,20 @@
     <link rel="stylesheet" href="{% static 'qazmusic/css/audio-player.css' %}">
     <main class="artist-view-page">
         <div class="left">
-            {% for artist in artists %}
-                {% if artist_id == artist.pk %}
-                    <div class="artist-card">
-                        <div class="artist-photo"
-                             style="background: url('{{ artist.photo.url }}') no-repeat center; background-size: cover">
-                        </div>
-                        <div class="artist-info">
-                            <h2>{{ artist.name }} {{ artist.surname }}</h2>
-                            <p>{{ artist.repertoire }} songs in repertoire</p>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+            <div class="artist-card">
+                <div class="artist-photo"
+                     style="background: url('{{ artist.photo.url }}') no-repeat center; background-size: cover">
+                </div>
+                <div class="artist-info">
+                    <h2>{{ artist.name }} {{ artist.surname }}</h2>
+                    <p>{{ artist.repertoire }} songs in repertoire</p>
+                </div>
+            </div>
         </div>
         <div class="right">
             <h2>Playlist</h2>
             {% for song in tracks %}
-                {#                {% for track in tracks_artists %}#}
-                {% if artist_id == song.artist_id %}
+                {% if artist.pk == song.artist_id %}
                     <div class="track-div">
                         <p>{{ song.title }}</p>
                         <audio src="{{ song.file.url }}"
@@ -38,7 +33,6 @@
                         </div>
                     </div>
                 {% endif %}
-                {#                {% endfor %}#}
             {% endfor %}
         </div>
     </main>

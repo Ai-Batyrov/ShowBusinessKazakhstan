@@ -21,9 +21,9 @@
     </div>
     <div class="header-menu-div">
         <ul>
-            {% for title, url in header_menu.items %}
+            {% for title, url_name in header_menu.items %}
                 <li>
-                    <a href="{% url url %}">
+                    <a href="{% url url_name %}">
                         {{ title }}
                     </a>
                 </li>
@@ -54,5 +54,37 @@
 {% block content %}
 
 {% endblock %}
+{% if page_obj.has_other_pages %}
+    <nav class="pagination-list">
+        <ul>
+            {% if page_obj.has_previous %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.previous_page_number }}">&larr;</a>
+                </li>
+            {% endif %}
+
+            {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <li class="page-selected">
+                        {{ p }}
+                    </li>
+                {% else %}
+                    <li class="page-num">
+                        <a href="?page={{ p }}">
+                            {{ p }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-num">
+                    <a href="?page={{ page_obj.next_page_number }}">&rarr;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
 </body>
 </html>

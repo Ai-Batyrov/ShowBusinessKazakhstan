@@ -63,6 +63,7 @@ class Lyrics(models.Model):
     def get_absolute_url(self):
         return reverse('lyric-view', kwargs={
             'lyric_id': self.pk,
+            'track_title': self.track_id.title.replace(' ', '-')
         })
 
     def __str__(self):

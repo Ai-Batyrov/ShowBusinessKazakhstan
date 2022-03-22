@@ -10,8 +10,18 @@ header_menu = {
 }
 
 
-# useful objects
+# mixins
+class DataMixin:
+    paginate_by = 5
 
+    def get_user_context(self, **kwargs):
+        context = kwargs
+        context['header_menu'] = header_menu
+        context['tracks'] = get_tracks()
+        return context
+
+
+# useful objects
 def get_tracks():
     get_tracks = Tracks.objects.all()
     return get_tracks
@@ -38,7 +48,6 @@ def get_lyrics():
 
 
 # utils
-
 def get_tracks_artists(id):
     tracks_artists = TracksArtist.objects.filter(artist_id=id)
     return tracks_artists

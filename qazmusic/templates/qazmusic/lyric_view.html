@@ -7,11 +7,12 @@
         <div class="left">
             <div class="artist-card">
                 <div class="artist-photo"
-                     style="background: url('{{ artist_photo.url }}') no-repeat center;
+                     style="background: url('{{ artist.photo.url }}') no-repeat center;
                              background-size: cover">
                 </div>
                 <div class="artist-info">
                     <h2>{{ track_title }}</h2>
+                    <h4>{{ artist.name }} {{ artist.surname }}</h4>
                     <p>{{ lyric.poet }}</p>
                 </div>
             </div>
