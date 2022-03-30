@@ -1,4 +1,9 @@
+from django.conf import settings
+from django.contrib.auth import logout, login
+from django.contrib.auth.views import LoginView
+from django.core.mail import *
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import *
 from .forms import *
 from .utils import *
@@ -118,14 +123,59 @@ class LyricView(DataMixin, DetailView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
+class RegisterUser(DataMixin, CreateView):
+    form_class = RegisterUserForm
+    template_name = 'qazmusic/register.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Register')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        mail = EmailMessage(
+            'Verify email',
+            'Please, verify the your account',
+            settings.EMAIL_HOST_USER,
+            to=[form.cleaned_data.get('email')]
+        )
+        mail.send()
+
+        if mail:
+            user = form.save()
+            login(self.request, user)
+            return redirect('home')
+        else:
+            return redirect('register')
+
+
+class LoginUser(DataMixin, LoginView):
+    form_class = AuthenticationForm
+    template_name = 'qazmusic/auth.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='qazmusic - Login')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
 def show_archive(request):
+    current_genre = Genres.objects.get(pk=3)
     context = {
         'title': 'Golden fund',
         'header_menu': header_menu,
         'tracks': get_tracks(),
         'artists': get_artists(),
-        'genres': get_genres(),
-        'genre_id': 3
+        'genre': current_genre
     }
     return render(request, 'qazmusic/genre_view.html', context=context)
 
@@ -133,13 +183,13 @@ def show_archive(request):
 def upload(request):
     succesful = False
     if request.method == 'POST':
-        form = Upload_Music(request.POST, request.FILES)
+        form = UploadMusic(request.POST, request.FILES)
         if form.is_valid():
             succesful = True
             form.save()
 
     else:
-        form = Upload_Music()
+        form = UploadMusic()
 
     context = {
         'title': 'qazmusic - Upload',
@@ -155,9 +205,9 @@ def upload(request):
 def update_track(request, pk):
     succesful = False
     track = Tracks.objects.get(pk=pk)
-    form = Upload_Music(instance=track)
+    form = UploadMusic(instance=track)
     if request.method == 'POST':
-        form = Upload_Music(request.POST, instance=track)
+        form = UploadMusic(request.POST, instance=track)
         if form.is_valid():
             succesful = True
             form.save()
@@ -176,7 +226,7 @@ def update_track(request, pk):
 
 def delete_track(request, pk):
     track = Tracks.objects.get(pk=pk)
-    form = Upload_Music(instance=track)
+    form = UploadMusic(instance=track)
     if request.method == 'POST':
         track.delete()
         return redirect('/artists')
@@ -188,6 +238,11 @@ def delete_track(request, pk):
         'item': track
     }
     return render(request, 'qazmusic/delete_track.html', context=context)
+
+# def get_api(request):
+#     response_data = dict(serializers.serialize('json', get_tracks()))
+#
+#     return JsonResponse(response_data)
 
 # def index(request):
 #     context = {

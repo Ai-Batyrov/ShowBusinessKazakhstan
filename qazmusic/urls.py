@@ -1,8 +1,9 @@
-from django.urls import path, include
+from django.urls import *
+from django.views.decorators.cache import cache_page
 from .views import *
 
 urlpatterns = [
-    path('', QazmusicHome.as_view(), name='home'),
+    path('', cache_page(60 * 5)(QazmusicHome.as_view()), name='home'),
     path('artists', ShowArtists.as_view(), name='artists'),
     path('artist/<int:artist_id>-<slug:fullname>/', ArtistView.as_view(), name='artist-view'),
     path('genres', ShowGenres.as_view(), name='genres'),
@@ -15,4 +16,8 @@ urlpatterns = [
     path('upload', upload, name='upload'),
     path('update/<str:pk>', update_track, name='update'),
     path('delete/<str:pk>', delete_track, name='delete_track'),
+    path('register/', RegisterUser.as_view(), name='register'),
+    path('login/', LoginUser.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
+    # path('getapi/', get_api, name='api'),
 ]

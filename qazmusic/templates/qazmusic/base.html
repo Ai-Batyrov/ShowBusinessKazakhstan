@@ -1,4 +1,5 @@
 {% load static %}
+{#{% load cache %}#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'qazmusic/css/index.css' %}">
 </head>
 <body>
-
+{#{% cache 60 header %}#}
 <header>
     <div class="logo-div">
         <a href="{% url 'home' %}">
@@ -32,59 +33,52 @@
     </div>
     <div class="user-div">
         <div class="user-div-inner">
-            <div class="user-div-inner-name">
-                <div>
-                    <img alt="avatar"
-                         src="https://sun3-8.userapi.com/s/v1/ig2/FLU35st8fsfzTRZg6c8P7ndwqt61VMIgaH_HDbGXV6R7gSsCzmRYKO-jjwgpocK3hKtna2CyLyBaj_WsZC2aaBKB.jpg?size=50x50&quality=96&crop=108,108,865,865&ava=1">
-                </div>
+            {% if request.user.is_authenticated %}
+                <span>{{ user.username }} | <a href="{% url 'logout' %}">Logout</a></span>
+            {% else %}
                 <span>
-                    Aibolat Batyrov
+                <a href="{% url 'register' %}">Register</a> | <a href="{% url 'login' %}">Login</a>
                 </span>
-            </div>
-            <div>
-            <span>
-                <img src="https://img.icons8.com/material-outlined/24/000000/expand-arrow--v1.png"/>
-            </span>
-            </div>
+            {% endif %}
         </div>
-
     </div>
 </header>
+{#{% endcache %}#}
 
 {% block content %}
 
 {% endblock %}
-{% if page_obj.has_other_pages %}
-    <nav class="pagination-list">
-        <ul>
-            {% if page_obj.has_previous %}
-                <li class="page-num">
-                    <a href="?page={{ page_obj.previous_page_number }}">&larr;</a>
-                </li>
-            {% endif %}
-
-            {% for p in paginator.page_range %}
-                {% if page_obj.number == p %}
-                    <li class="page-selected">
-                        {{ p }}
-                    </li>
-                {% else %}
-                    <li class="page-num">
-                        <a href="?page={{ p }}">
-                            {{ p }}
-                        </a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-                <li class="page-num">
-                    <a href="?page={{ page_obj.next_page_number }}">&rarr;</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-{% endif %}
+{#{% if page_obj.has_other_pages %}#}
+{#    <nav class="pagination-list">#}
+{#        <ul>#}
+{#            {% if page_obj.has_previous %}#}
+{#                <li class="page-num">#}
+{#                    <a href="?page={{ page_obj.previous_page_number }}">&larr;</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{##}
+{#            {% for p in paginator.page_range %}#}
+{#                {% if page_obj.number == p %}#}
+{#                    <li class="page-selected">#}
+{#                        {{ p }}#}
+{#                    </li>#}
+{#                {% else %}#}
+{#                    <li class="page-num">#}
+{#                        <a href="?page={{ p }}">#}
+{#                            {{ p }}#}
+{#                        </a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{##}
+{#            {% if page_obj.has_next %}#}
+{#                <li class="page-num">#}
+{#                    <a href="?page={{ page_obj.next_page_number }}">&rarr;</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#        </ul>#}
+{#    </nav>#}
+{#{% endif %}#}
 
 </body>
 </html>

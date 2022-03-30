@@ -19,7 +19,7 @@
             {% for song in tracks %}
                 {% if genre.pk == song.genre_id %}
                     <div class="track-div">
-                        <p>{{ song.title }}</p>
+                        <p>{{ song.title }} - {{ song.artist.name }} {{ song.artist.surname }}</p>
                         <audio src="{{ song.file.url }}"
                                controls
                                class="track-audio">

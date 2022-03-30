@@ -1,0 +1,27 @@
+.register-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: initial;
+}
+
+.register-card {
+    width: 25rem;
+    height: 40rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.register-card > form {
+    height: 35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.captcha {
+    width: 8rem;
+}
