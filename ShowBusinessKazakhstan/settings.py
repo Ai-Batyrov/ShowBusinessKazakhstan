@@ -140,8 +140,7 @@ CACHES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '465'  # 587
-EMAIL_HOST_USER = 'aibolat.batyrov.03@gmail.com'
-EMAIL_HOST_PASSWORD = 'A1i2b3o4l5a6t77@'
+
 DEFAULT_FROM_EMAIL = f'Your Name {EMAIL_HOST_USER}'
 # EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
