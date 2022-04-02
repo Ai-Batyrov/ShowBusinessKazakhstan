@@ -95,20 +95,6 @@ header {
     align-items: center;
 }
 
-.user-div-inner-name {
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 500;
-}
-
-.user-div-inner-name div img {
-    width: 2.7rem;
-    display: flex;
-    border-radius: 50%;
-}
-
 .user-div-inner > .auth-span, .username-span {
     width: 100%;
     font-size: 1rem;
