@@ -34,10 +34,18 @@
     <div class="user-div">
         <div class="user-div-inner">
             {% if request.user.is_authenticated %}
-                <span>{{ user.username }} | <a href="{% url 'logout' %}">Logout</a></span>
+                <span class="username-span">
+                    <div>
+                        {{ user.username }}
+                    </div>
+                    <a href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </span>
             {% else %}
-                <span>
-                <a href="{% url 'register' %}">Register</a> | <a href="{% url 'login' %}">Login</a>
+                <span class="auth-span">
+                    <a href="{% url 'register' %}">Register</a>
+                    <a href="{% url 'login' %}">Login</a>
                 </span>
             {% endif %}
         </div>

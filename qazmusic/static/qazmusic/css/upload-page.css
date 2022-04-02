@@ -11,8 +11,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(170deg, rgba(86, 128, 233, 1) 0%, rgba(90, 185, 234, 1) 29%, rgba(136, 96, 208, 1) 68%, rgba(132, 206, 235, 1) 100%);
-    /*background: url("/static/qazmusic/img/gradient_razmytost_raznotsvetnyj_193120_1600x1200.jpg");*/
+    background: linear-gradient(160deg, rgba(86, 128, 233, 1) 0%, rgba(90, 185, 234, 1) 29%, rgba(136, 96, 208, 1) 68%, rgba(132, 206, 235, 1) 100%);
 }
 
 .left h3 {
@@ -95,6 +94,7 @@ form p {
 
 form p label {
     opacity: 0.7;
+    font-size: 0.9rem;
 }
 
 form p input {
@@ -102,7 +102,7 @@ form p input {
     border-bottom: #c1c8e4 2px solid;
     height: 2rem;
     font-family: Montserrat, serif;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 form p input:focus {
@@ -118,6 +118,7 @@ form p select {
 }
 
 form p #id_file {
+    width: 50%;
     border: none;
     padding: 1rem 0 1rem 0;
 }
@@ -128,6 +129,19 @@ form p #id_file {
 
 #id_file[type="file" i] {
     color: #CC3434;
+}
+
+#id_file[type="file"]::-webkit-file-upload-button {
+    background-color: #8860d0;
+    color: whitesmoke;
+    font-family: inherit;
+    border: none;
+    padding: 1rem;
+    transition: background-color 0.4s ease-in-out;
+}
+
+#id_file[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #4ac1f7;
 }
 
 form button {
