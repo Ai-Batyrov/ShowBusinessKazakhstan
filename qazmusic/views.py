@@ -123,6 +123,7 @@ class LyricView(DataMixin, DetailView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
+# регистрация
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'qazmusic/register.html'
@@ -150,6 +151,7 @@ class RegisterUser(DataMixin, CreateView):
             return redirect('register')
 
 
+# логин (авторизация)
 class LoginUser(DataMixin, LoginView):
     form_class = AuthenticationForm
     template_name = 'qazmusic/auth.html'
@@ -163,6 +165,7 @@ class LoginUser(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
+# выйти из профиля
 def logout_user(request):
     logout(request)
     return redirect('login')

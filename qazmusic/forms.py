@@ -19,6 +19,7 @@ class UploadMusic(forms.ModelForm):
         }
 
 
+# регистрационная форма
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-input'}))
     first_name = forms.CharField(label='Firstname', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -34,6 +35,7 @@ class RegisterUserForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'password1', 'password2')
 
 
+# авторизационная форма
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
